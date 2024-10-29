@@ -1,0 +1,22 @@
+workflows:
+  ios-build:
+    name: iOS Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    steps:
+      - name: Checkout
+        script:
+          - git checkout $BRANCH_NAME
+      - name: Flutter Doctor
+        script:
+          - flutter doctor
+      - name: Build iOS
+        script:
+          - flutter build ios --release
+      - name: Archive
+        script:
+          - zip -r build.zip build/ios/iphoneos/*.app
+      - name: Upload IPA
+        script:
+          - echo "Uploading IPA file..."
+          - curl -X POST -F "ipa=@build.zip" https://api.codemagic.io/v1/apps/$APP_ID/upload
