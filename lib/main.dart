@@ -5,12 +5,14 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'app/bindings/app_bindings.dart';
 import 'app/routes/app_pages.dart';
 import 'app/routes/app_routes.dart';
+import 'app/services/notification_service.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
+  await NotificationService().init();
   runApp(
     ScreenUtilInit(
-      designSize: const Size(1080, 2400), // Design size for Pixel 8
+      designSize: const Size(1080, 2400),
       builder: (context, child) {
         return  const MyApp();
       },
@@ -20,14 +22,13 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialRoute: AppRoutes.LOGIN,
       getPages: AppPages.pages,
       initialBinding: AppBindings(),
-      title: 'GetX Example',
+      title: 'LoopTracker',
       debugShowCheckedModeBanner: false,
     );
   }

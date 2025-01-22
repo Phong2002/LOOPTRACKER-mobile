@@ -3,7 +3,6 @@ class AdministrativeUnit  {
   final String name;
 
   AdministrativeUnit ({required this.id, required this.name});
-
   // Phương thức từ JSON thành đối tượng Dart
   factory AdministrativeUnit .provinceFromJson(Map<String, dynamic> json) {
     return AdministrativeUnit (
@@ -11,5 +10,4 @@ class AdministrativeUnit  {
       name: json['ProvinceName'] as String,
     );
   }
-
 }

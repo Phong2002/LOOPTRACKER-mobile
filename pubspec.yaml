@@ -39,14 +39,27 @@ dependencies:
   flutter_screenutil: ^5.0.0
   intl: ^0.19.0
   flutter_dotenv: ^5.1.0
-  http: ^1.2.2
   flutter_otp_text_field: ^1.2.0
   camera: 0.10.5+8
   path_provider: ^2.1.4
   path: ^1.9.0
   image: ^4.3.0
   capture_identity: ^1.0.1
-
+  loading_btn: ^1.0.3
+  dio: ^5.7.0
+  flutter_secure_storage: ^9.2.2
+  curved_navigation_bar: ^1.0.6
+  carousel_slider: ^5.0.0
+  image_picker: ^1.1.2
+  font_awesome_flutter: ^10.7.0
+  web_socket_channel: ^2.1.0
+  stomp_dart_client: ^0.4.4
+  location: ^5.0.0
+  photo_view: ^0.14.0
+  lottie: ^2.1.0
+  flutter_local_notifications: ^18.0.1
+  flutter_map: ^5.0.0
+  latlong2: ^0.9.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -73,6 +86,10 @@ flutter:
     - .env
     - assets/images/
     - assets/images/otp/
+    - assets/images/logo/
+    - assets/images/slider/
+    - assets/animations/
+    - assets/html/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

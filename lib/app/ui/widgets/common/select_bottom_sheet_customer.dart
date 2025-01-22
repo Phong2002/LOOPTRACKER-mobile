@@ -3,10 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 class SelectBottomSheetCustomer extends StatelessWidget {
-  final Map<String, String> options; // Map để lưu trữ nhãn và giá trị
-  final String? selectedValue; // Giá trị đã chọn
-  final ValueChanged<MapEntry<String, String>> onChanged; // Hàm gọi lại khi chọn một giá trị
-  final String label; // Nhãn hiển thị trên ô input
+  final Map<String, String> options;
+  final String? selectedValue;
+  final ValueChanged<MapEntry<String, String>> onChanged;
+  final String label;
 
   SelectBottomSheetCustomer({
     required this.options,
@@ -35,9 +35,7 @@ class SelectBottomSheetCustomer extends StatelessWidget {
             ),
           ),
           child: Text(
-            options.keys.firstWhere(
-                    (key) => options[key] == selectedValue,
-                orElse: () => label),
+            options[selectedValue] ?? label,
             style: TextStyle(fontSize: 45.sp),
           ),
         ),
@@ -59,6 +57,7 @@ class SelectBottomSheetCustomer extends StatelessWidget {
                     label,
                     style: TextStyle(fontSize: 60.h, fontWeight: FontWeight.bold),
                   )),
+              Divider(thickness: 1.2, color: Colors.grey[300]),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 50.h),
                 height: 800.h,
@@ -68,12 +67,13 @@ class SelectBottomSheetCustomer extends StatelessWidget {
                     String key = options.keys.elementAt(index);
                     String value = options[key]!;
                     return ListTile(
-                      selected: value == selectedValue,
+                      selected: key == selectedValue,
+                      selectedTileColor: Colors.grey[300],
                       selectedColor: Colors.green[800],
                       title: Container(
                         alignment: Alignment.center,
                         child: Text(
-                          key,
+                          value,
                           style: TextStyle(fontSize: 50.sp),
                         ),
                       ),

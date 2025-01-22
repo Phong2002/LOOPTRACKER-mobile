@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map with Multiple Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body style="margin: 0; padding: 0;">
+<div id="map" style="width: 100%; height: 100vh;"></div>
+<script>
+    let map;
+
+    // Hàm khởi tạo bản đồ
+    function initMap() {
+        map = L.map('map').setView([21.028511, 105.804817], 13);
+
+        // Lớp bản đồ OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+        }).addTo(map);
+    }
+
+    // Hàm hiển thị danh sách vị trí người dùng
+    function displayUsers(users) {
+        users.forEach(user => {
+            L.marker([user.lat, user.lon])
+                .addTo(map)
+                .bindPopup(`<b>${user.name}</b><br>Lat: ${user.lat}, Lon: ${user.lon}`);
+        });
+    }
+
+    // Khởi tạo bản đồ
+    initMap();
+
+    // Lấy danh sách người dùng từ Flutter
+    window.flutter_inappwebview.callHandler('getUsers').then((users) => {
+        displayUsers(JSON.parse(users));
+    });
+</script>
+</body>
+</html>

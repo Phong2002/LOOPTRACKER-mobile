@@ -27,7 +27,7 @@ class _CameraCommonState extends State<CameraCommon> {
     if (_cameras != null && _cameras!.isNotEmpty) {
       _cameraController = CameraController(
         _cameras!.first,
-        ResolutionPreset.low, // Use a lower resolution for faster capture
+        ResolutionPreset.high, // Use a lower resolution for faster capture
         enableAudio: false,
       );
       await _cameraController!.initialize();
@@ -40,6 +40,8 @@ class _CameraCommonState extends State<CameraCommon> {
       return;
     }
     try {
+      // Tắt lấy nét tự động
+      await _cameraController!.setFocusMode(FocusMode.locked);
       final XFile rawImage = await _cameraController!.takePicture();
       final Uint8List imageBytes = await rawImage.readAsBytes();
       widget.onCapture(imageBytes);

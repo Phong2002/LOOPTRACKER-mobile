@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:loading_btn/loading_btn.dart';
 import 'package:looptracker_mobile/app/controllers/auth/register_controller.dart';
 import 'package:looptracker_mobile/app/ui/widgets/common/camera_common.dart';
 
@@ -52,25 +54,43 @@ class PhotoIdentificationVerification extends StatelessWidget {
               registerController.gplxBack,
               () => _openCamera(context, registerController.setGplxBackImage),
             ),
-            const SizedBox(height: 32),
+
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Xử lý sự kiện khi nhấn nút gửi yêu cầu
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(11, 150, 42, 0.8),
-                  // Mã màu RGB
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  textStyle: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w600),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: const Text('Gửi Yêu Cầu',style: TextStyle(color: Colors.white),),
+              heightFactor: 5.h,
+              child: SizedBox(
+                child:Obx(() => Text(registerController.photoIdMessage.value,style:  TextStyle(color: Colors.red,fontSize: 50.sp),),),
               ),
+            ),
+            LoadingBtn(
+              height: 50,
+              borderRadius: 8,
+              animate: true,
+              color: Colors.green,
+              width: MediaQuery.of(context).size.width * 0.45,
+              loader: Container(
+                padding: const EdgeInsets.all(10),
+                width: 40,
+                height: 40,
+                child: const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ),
+              child: Text(
+                "Gửi yêu cầu",
+                style: TextStyle(color: Colors.white, fontSize: 50.sp),
+              ),
+              onTap: (startLoading, stopLoading, btnState) async {
+                startLoading();
+                if(registerController.validatePhotoId()){
+                  bool isSuccess = await registerController.sendRegistrationRequest();
+                  print("=============222222222=================$isSuccess");
+                  if(isSuccess){
+                    Get.toNamed("/otp_register");
+                  }
+                }
+                stopLoading();
+
+              },
             ),
           ],
         ),

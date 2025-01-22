@@ -3,13 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:looptracker_mobile/app/controllers/auth/otp_register_controller.dart';
 
 import '../../../controllers/auth/register_controller.dart';
 
 class OtpRegisterPage extends StatelessWidget {
   final RegisterController registerController = Get.find();
-final OtpRegisterController otpRegisterController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,6 @@ final OtpRegisterController otpRegisterController = Get.find();
                     alignment: Alignment.center)),
           ),
           Obx(()=>
-
             Container(
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(vertical: 50.h,horizontal: 100.h),
@@ -37,24 +34,26 @@ final OtpRegisterController otpRegisterController = Get.find();
           ),
 
           OtpTextField(
+            keyboardType:TextInputType.number,
             numberOfFields: 5,
             borderColor: Color(0xFF512DA8),
             showFieldAsBox: true,
             fieldWidth: 150.h,
             textStyle: TextStyle(fontSize: 60.sp,fontWeight: FontWeight.bold,color: Colors.blue),
             onCodeChanged: (String code) {
-              print(code);
+              registerController.clearOtpMessage();
+              print("=================================$code");
             },
-            onSubmit: (String verificationCode) {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: Text("Verification Code"),
-                      content: Text('Code entered is $verificationCode'),
-                    );
-                  });
+            onSubmit: (String verificationCode) async {
+
+              if(await registerController.confirmOtp(verificationCode)){
+                Get.toNamed("/registration_successful");
+              }
             }, // end onSubmit
+          ),
+          SizedBox(
+            height: 150.h,
+            child: Center(child: Obx(() => Text(registerController.inforMessage.value,style:  TextStyle(color: Colors.red,fontSize: 50.sp),),)),
           ),
         ]),
       ),
